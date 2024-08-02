@@ -19,4 +19,5 @@ For more info check the pom.xml file
 - Run application on [:8080] using
 ```
 $ java -jar target/place-service-0.0.1-SNAPSHOT.jar
-``
+
+```
