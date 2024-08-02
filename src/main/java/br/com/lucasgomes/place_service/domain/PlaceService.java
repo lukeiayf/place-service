@@ -1,17 +1,21 @@
 package br.com.lucasgomes.place_service.domain;
 
 import br.com.lucasgomes.place_service.api.PlaceRequest;
+import com.github.slugify.Slugify;
 import reactor.core.publisher.Mono;
 
 public class PlaceService {
     private final PlaceRepository placeRepository;
+    private final Slugify slg;
 
     public PlaceService(PlaceRepository placeRepository) {
         this.placeRepository = placeRepository;
+        this.slg = Slugify.builder().build();
     }
 
     public Mono<Place> create(PlaceRequest placeRequest) {
-        Place place = new Place(null, placeRequest.name(), placeRequest.slug(), placeRequest.state(), placeRequest.createdAt(), placeRequest.updatedAt());
+        String slug = slg.slugify(placeRequest.name());
+        Place place = new Place(null, placeRequest.name(), slug, placeRequest.state(), null, null);
         return placeRepository.save(place);
     }
 }

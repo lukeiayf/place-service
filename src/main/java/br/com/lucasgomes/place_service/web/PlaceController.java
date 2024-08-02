@@ -4,6 +4,7 @@ import br.com.lucasgomes.place_service.api.PlaceRequest;
 import br.com.lucasgomes.place_service.api.PlaceResponse;
 import br.com.lucasgomes.place_service.domain.Place;
 import br.com.lucasgomes.place_service.domain.PlaceService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class PlaceController {
     }
 
     @PostMapping
-    public ResponseEntity<Mono<PlaceResponse>> create(@RequestBody PlaceRequest request) {
+    public ResponseEntity<Mono<PlaceResponse>> create(@Valid @RequestBody PlaceRequest request) {
         Mono<Place> createdPlace = placeService.create(request);
         Mono<PlaceResponse> placeResponse = createdPlace.map(PlaceMapper::fromPlaceToResponse);
         return ResponseEntity.status(HttpStatus.CREATED).body(placeResponse);
